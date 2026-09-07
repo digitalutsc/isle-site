@@ -1,0 +1,16 @@
+# Islandora Lite overlay.
+#
+# Layered on top of the stock docker-compose.yml via COMPOSE_FILE in .env, which
+# `make lite-profile-ten` / `lite-profile-eleven` / `lite-compose-file` maintain. Keeping this
+# here rather than editing docker-compose.yml means that file stays byte-identical to upstream
+# and never conflicts on a merge.
+#
+# isle-buildkit 7.0 renamed islandora/fcrepo6 to islandora/fcrepo. The Lite site is Drupal 10,
+# which needs search_api_solr 4.3, which needs Solr 9, which means the 6.x image line and
+# therefore fcrepo6. Parameterizing it lets the same overlay serve both pairings, so only the
+# variable changes when the image line moves.
+#
+# See LITE.md.
+services:
+  fcrepo:
+    image: islandora/${FCREPO_IMAGE:-fcrepo}:${ISLANDORA_TAG}

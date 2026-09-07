@@ -8,8 +8,10 @@ echo "Updating from islandora-starter-site..."
 # In the future, this could be changed to track latest release tag
 STARTER_SITE_BRANCH="${STARTER_SITE_BRANCH:-main}"
 STARTER_SITE_OWNER="${STARTER_SITE_OWNER:-islandora-devops}"
+# Lite: allow a different repository name. Default is unchanged. See LITE.md.
+STARTER_SITE_REPO="${STARTER_SITE_REPO:-islandora-starter-site}"
 
-repo="https://github.com/${STARTER_SITE_OWNER}/islandora-starter-site"
+repo="https://github.com/${STARTER_SITE_OWNER}/${STARTER_SITE_REPO}"
 ref="${STARTER_SITE_BRANCH}"
 
 # The path to the drupal webroot
