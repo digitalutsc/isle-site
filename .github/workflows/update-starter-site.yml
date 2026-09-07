@@ -1,0 +1,28 @@
+name: Update from Islandora Starter Site
+
+on:
+  schedule:
+    - cron: '0 7 * * *' # Runs daily at 7am UTC
+  workflow_dispatch:
+
+jobs:
+  update:
+    runs-on: ubuntu-24.04
+    if: github.repository == 'Islandora-Devops/isle-site-template'
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+
+      - name: Setup ISLE
+        uses: ./.github/actions/setup
+
+      - name: Refresh tracked Solr config
+        run: make sync-solr-conf
+
+      - name: Create Pull Request
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: make create-starter-site-pr
+
+      - name: cleanup
+        if: ${{ always() }}
+        run: make down
