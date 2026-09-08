@@ -6,6 +6,7 @@
   - [Assumptions](#assumptions)
 - [Requirements](#requirements)
 - [Quick Start](#quick-start)
+- [Islandora Lite](#for-islandora-lite)
 - [Commands](#commands)
 - [Configuration](#configuration)
   - [Environment Variables](#environment-variables)
@@ -75,6 +76,18 @@ configurations this template is set up for the following:
     Default URL: [http://islandora.io](http://islandora.io) (maps to 127.0.0.1)
 
     *Note: The first start will take several minutes as Drupal installs.*
+
+## For Islandora Lite
+
+Use `make lite-init` **instead of `make init`**. It seeds `.env` with the Drupal 10 pairing and the
+`COMPOSE_FILE` overlay before calling the stock `scripts/init.sh`, which only copies `sample.env`
+when `.env` is absent. It also writes the two healthcheck values that `init.sh` would otherwise set
+only for a `.env` it created; they exist to survive the drupal/solr healthcheck cycle on first boot.
+
+```sh
+make lite-init && make up
+```
+
 
 ## Commands
 
