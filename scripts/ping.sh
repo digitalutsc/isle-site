@@ -8,8 +8,10 @@ source "$(dirname "${BASH_SOURCE[0]}")/profile.sh"
 MAX_RETRIES=${MAX_RETRIES:-10}
 SLEEP_INCREMENT=5
 RETRIES=0
+# Lite: the site is not named "Islandora", and `timeout` is GNU-only. See LITE.md.
+PING_MATCH=${PING_MATCH:-'Drupal\|Islandora'}
 while true; do
-    timeout 5 curl -fs "${URI_SCHEME}://${DOMAIN}/" | grep Islandora && break || exit_code=$?
+    curl -fs --max-time 5 "${URI_SCHEME}://${DOMAIN}/" | grep "${PING_MATCH}" >/dev/null && break || exit_code=$?
 
     RETRIES=$((RETRIES + 1))
     if [ "$RETRIES" -ge "$MAX_RETRIES" ]; then
